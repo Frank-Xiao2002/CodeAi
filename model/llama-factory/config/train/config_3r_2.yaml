@@ -1,0 +1,40 @@
+### model
+model_name_or_path: qwen/qwen2.5-coder-1.5b-instruct
+
+### method
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_target: all
+
+### dataset
+dataset: mydata
+template: qwen
+cutoff_len: 8192
+max_samples: 10000
+overwrite_cache: true
+preprocessing_num_workers: 16
+
+### output
+output_dir: saves/adapters/qwen/3r/2e-4
+logging_steps: 10
+save_steps: 500
+plot_loss: true
+overwrite_output_dir: true
+
+### train
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 32
+learning_rate: 2.0e-4
+num_train_epochs: 3
+lr_scheduler_type: cosine
+bf16: true
+ddp_timeout: 180000000
+
+### eval
+val_size: 0.1
+per_device_eval_batch_size: 1
+eval_steps: 500
+
+
+

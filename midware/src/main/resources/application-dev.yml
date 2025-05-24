@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    show-sql: true
+    generate-ddl: true
+logging:
+  level:
+    org.springframework.security: trace
+    top.frankxxj.codeai: debug
+debug: true

@@ -1,0 +1,140 @@
+
+###Get JWT token
+POST http://localhost:8080/api/login/token
+Content-Type: application/json
+
+{
+  "name": "admin",
+  "pwd": "password"
+}
+
+> {%
+    client.global.set("token", response.body)
+    client.test("#1", function () {
+        client.assert(response.status === 200, "response status error")
+    });
+%}
+
+<> 2025-05-11T173230.200.txt
+<> 2025-05-11T172308.200.txt
+<> 2025-05-11T023437.200.txt
+
+###Create a conversation
+POST http://localhost:8080/api/conversation/create
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+> {%
+    client.global.set("conversationId", response.body)
+    client.global.set("model", "qwen2.5-coder:1.5b-instruct")
+    client.test("#2", () => {
+        client.assert(response.status === 200, "response status error")
+    })
+%}
+
+<> 2025-05-11T173230-1.200.txt
+<> 2025-05-11T172309.200.txt
+
+###Test code generation
+POST http://localhost:8080/api/chat/generate
+Content-Type: application/json
+Codeai-model: {{model}}
+Authorization: Bearer {{token}}
+
+{
+  "userPrompt": "Tell me how to write quick sort in python",
+  "conversationId": "{{conversationId}}"
+}
+
+> {%
+    client.test("code generation", () => {
+        client.assert(response.status === 200, "response status error")
+    })
+%}
+
+<> 2025-05-11T173233.200.txt
+<> 2025-05-11T172313.200.txt
+
+###Fail to create a user
+POST http://localhost:8080/api/user/create
+Content-Type: application/json
+
+{
+  "name": "admin",
+  "pwd": "password"
+}
+
+<> 2025-05-11T173233.409.txt
+<> 2025-05-11T172314.409.txt
+
+###Test code fix
+POST http://localhost:8080/api/chat/fix
+Content-Type: application/json
+Authorization: Bearer {{token}}
+Codeai-model: {{model}}
+
+{
+  "userPrompt": "System.prinln(\"Hello World\")",
+  "snippet": "ssss",
+  "files": [
+    {
+      "fileName": "test.txt",
+      "fileContent": "test\ntest"
+    },
+    {
+      "fileName": "test2.txt",
+      "fileContent": "test2\ntest2"
+    }
+  ]
+}
+
+> {%
+    client.test("code fix", () => {
+        client.assert(response.status === 200, "response status error")
+    })
+%}
+
+<> 2025-05-11T173234.200.txt
+<> 2025-05-11T172315.200.txt
+
+###Test Code Completion
+POST http://localhost:8080/api/chat/complete
+Authorization: Bearer {{token}}
+Codeai-model: {{model}}
+Content-Type: application/json
+
+{
+  "userPrompt": "for(int i = 10; i>0;i--){\n\tSystem.out.println(i);\n}"
+}
+
+> {%
+    client.test("code completion", () => {
+        client.assert(response.status === 200, "response status error")
+    })
+%}
+
+<> 2025-05-11T173236.200.txt
+<> 2025-05-11T172317.200.txt
+
+###Load conversation
+GET http://localhost:8080/api/conversation/load
+Authorization: Bearer {{token}}
+
+> {%
+    client.test("load conversation", () => {
+        client.assert(response.status === 200, "response status error")
+    })
+%}
+
+<> 2025-05-11T173236.200.json
+<> 2025-05-11T172317.200.json
+
+###Succeed because of invalid conversationId
+DELETE http://localhost:8080/api/conversation/1
+Authorization: Bearer {{token}}
+
+> {%
+    client.test("conversation id error", () => {
+        client.assert(response.status === 200, "response status error")
+    })
+%}
