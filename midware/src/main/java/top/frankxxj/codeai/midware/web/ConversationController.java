@@ -1,6 +1,7 @@
 package top.frankxxj.codeai.midware.web;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.ai.chat.messages.Message;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,7 +11,6 @@ import top.frankxxj.codeai.midware.user.AppUser;
 import top.frankxxj.codeai.midware.user.security.SecurityUser;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/conversation")
@@ -32,11 +32,15 @@ class ConversationController {
         return ResponseEntity.ok("");
     }
 
-    @GetMapping("/load")
-    public ResponseEntity<Map<String, List<String>>> loadConversations(Authentication auth) {
+    @GetMapping("/{id}")
+    public ResponseEntity<List<Message>> loadConversationById(Authentication auth, @PathVariable("id") String conversationId) {
         AppUser user = ((SecurityUser) userDetailsService.loadUserByUsername(auth.getName())).getUser();
-        var conversations = conversationService.loadConversationByUser(user);
-        return ResponseEntity.ok(conversations);
+        if (conversationId.split("-")[0].equals(String.valueOf(user.getId()))) {
+            var conversations = conversationService.loadConversationById(conversationId);
+            return ResponseEntity.ok(conversations);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

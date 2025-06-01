@@ -58,6 +58,7 @@ class SecurityConfig {
                 })
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.POST, "/api/login/token", "/api/user/create").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/model/all").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())

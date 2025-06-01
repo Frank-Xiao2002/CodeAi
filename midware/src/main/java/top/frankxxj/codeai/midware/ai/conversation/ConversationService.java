@@ -1,5 +1,6 @@
 package top.frankxxj.codeai.midware.ai.conversation;
 
+import org.springframework.ai.chat.messages.Message;
 import top.frankxxj.codeai.midware.user.AppUser;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface ConversationService {
     void deleteConversationById(String conversationId);
 
     Map<String, List<String>> loadConversationByUser(AppUser user);
+
+    List<Message> loadConversationById(String conversationId);
 }

@@ -7,3 +7,5 @@ logging:
     org.springframework.security: trace
     top.frankxxj.codeai: debug
 debug: true
+server:
+  port: 8080

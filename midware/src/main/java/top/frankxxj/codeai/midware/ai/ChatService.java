@@ -14,23 +14,25 @@ import top.frankxxj.codeai.midware.web.dtos.ChatDTO;
 public class ChatService {
     private final ModelSwitcher modelSwitcher;
     private final Advisor messageChatMemoryAdvisor;
+    private final PromptService promptService;
 
-    public Flux<String> codeGeneration(String modelName, ChatDTO body) {
+    public String codeGeneration(String modelName, ChatDTO body) {
         var client = modelSwitcher.getClient(modelName);
         if (body.conversationId() == null) {
             return client.prompt()
                     .user(body.userPrompt())
-                    .stream().content();
+                    .call().content();
         } else {
-            return client.prompt()
+            return client.prompt(promptService.buildUserPrompt(body))
                     // add messageChatMemoryAdvisor to the client
                     .advisors(messageChatMemoryAdvisor)
                     .advisors(advisorSpec -> {
                         // set the conversationId to the advisor
                         advisorSpec.param(AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY, body.conversationId());
                     })
+                    .system(promptService.buildSystemPrompt(body))
                     .user(body.userPrompt())
-                    .stream().content();
+                    .call().content();
         }
     }
 

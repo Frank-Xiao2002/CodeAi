@@ -6,9 +6,6 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/plugin" />
   </component>
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="de3ffa5d-26ad-420c-b9e0-662d6ac8377f" />
-  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>

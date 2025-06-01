@@ -3,6 +3,7 @@ package top.frankxxj.codeai.midware.ai.conversation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.ai.chat.memory.jdbc.JdbcChatMemoryRepository;
+import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.content.Content;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -46,6 +47,11 @@ public class ConversationServiceImpl implements ConversationService {
                                 .map(Content::getText) // Assuming `getText()` retrieves the message content
                                 .collect(Collectors.toList())
                 ));
+    }
+
+    @Override
+    public List<Message> loadConversationById(String conversationId) {
+        return jdbcChatMemoryRepository.findByConversationId(conversationId);
     }
 
 }

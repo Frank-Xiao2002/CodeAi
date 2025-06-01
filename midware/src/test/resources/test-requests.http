@@ -9,7 +9,9 @@ Content-Type: application/json
 }
 
 > {%
-    client.global.set("token", response.body)
+    client.global.set("token", response.body.token)
+
+    console.log("Token: " + response.body.token)
     client.test("#1", function () {
         client.assert(response.status === 200, "response status error")
     });
@@ -42,8 +44,8 @@ Codeai-model: {{model}}
 Authorization: Bearer {{token}}
 
 {
-  "userPrompt": "Tell me how to write quick sort in python",
-  "conversationId": "{{conversationId}}"
+  "conversationId": "{{conversationId}}",
+  "userPrompt": "Tell me how to write quick sort in python"
 }
 
 > {%
