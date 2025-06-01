@@ -36,7 +36,6 @@ class PromptService {
             """;
 
     public String buildUserPrompt(ChatDTO dto) {
-        log.warn(dto);
         String prompt = "";
         if (dto.lang().equals("Chinese")) {
             prompt = prompt
