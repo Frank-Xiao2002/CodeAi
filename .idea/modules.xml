@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CodeAI.iml" filepath="$PROJECT_DIR$/CodeAI.iml" />
       <module fileurl="file://$PROJECT_DIR$/model/model.iml" filepath="$PROJECT_DIR$/model/model.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/plugin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/plugin.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/plugin.test.iml" filepath="$PROJECT_DIR$/.idea/modules/plugin.test.iml" />
     </modules>
   </component>
 </project>

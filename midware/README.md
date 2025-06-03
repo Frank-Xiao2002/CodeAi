@@ -8,5 +8,5 @@ Use the following command to create *.pem certificate files.
 
 ```bash
 openssl genrsa -out private.pem 2048
-openssl rs -in private.pem -pubout -out public.pem
+openssl rsa -in private.pem -pubout -out public.pem
 ```
