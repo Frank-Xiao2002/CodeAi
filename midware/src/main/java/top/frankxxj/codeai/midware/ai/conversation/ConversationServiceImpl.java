@@ -2,7 +2,7 @@ package top.frankxxj.codeai.midware.ai.conversation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.ai.chat.memory.jdbc.JdbcChatMemoryRepository;
+import org.springframework.ai.chat.memory.repository.jdbc.JdbcChatMemoryRepository;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.content.Content;
 import org.springframework.security.core.context.SecurityContextHolder;
